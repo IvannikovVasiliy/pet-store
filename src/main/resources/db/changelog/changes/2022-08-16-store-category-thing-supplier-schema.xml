@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+      http://www.liquibase.org/xml/ns/pro
+      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+
+    <changeSet id="1" author="ivannikov" runOnChange="true"> <!-- Если вносятся изменения -скрипт перезапускается -->
+        <preConditions onFail="MARK_RAN"> <!-- если таблица существует - пропустить этот блок -->
+            <and>
+                <not>
+                    <tableExists tableName="store" />
+                </not>
+                <not>
+                    <tableExists tableName="category" />
+                </not>
+                <not>
+                    <tableExists tableName="thing" />
+                </not>
+                <not>
+                    <tableExists tableName="supplier" />
+                </not>
+                <not>
+                    <tableExists tableName="store_supplier" />
+                </not>
+                <not>
+                    <tableExists tableName="country" />
+                </not>
+                <not>
+                    <tableExists tableName="city" />
+                </not>
+            </and>
+        </preConditions>
+        
+        <createTable tableName="country">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="nvarchar2(50)">
+                <constraints unique="true" nullable="false" />
+            </column>
+        </createTable>
+        
+        <createTable tableName="city">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="nvarchar2(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="id_country" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        
+        <createTable tableName="store">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="nvarchar2(50)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="id_city" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        
+        <createTable tableName="category">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="nvarchar2(50)">
+                <constraints nullable="false" unique="true" />
+            </column>
+        </createTable>
+
+        <createTable tableName="thing">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="nvarchar2(50)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="id_category" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="id_store" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="id_country_manufacturer" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        
+        <createTable tableName="supplier">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="nvarchar2(50)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="id_country" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="city"
+                                 baseColumnNames="id_country"
+                                 constraintName="fk_city_id_country"
+                                 referencedTableName="country"
+                                 referencedColumnNames="id" />
+
+        <addForeignKeyConstraint baseTableName="store"
+                                 baseColumnNames="id_city"
+                                 constraintName="fk_store_id_city"
+                                 referencedTableName="city"
+                                 referencedColumnNames="id" />
+
+        <addForeignKeyConstraint baseTableName="thing"
+                                 baseColumnNames="id_store"
+                                 constraintName="fk_thing_id_store"
+                                 referencedTableName="store"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="thing"
+                                 baseColumnNames="id_category"
+                                 constraintName="fk_thing_id_category"
+                                 referencedTableName="category"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="thing"
+                                 baseColumnNames="id_country_manufacturer"
+                                 constraintName="fk_thing_id_manufacturer"
+                                 referencedTableName="country"
+                                 referencedColumnNames="id" />
+
+        <addForeignKeyConstraint baseTableName="supplier"
+                                 baseColumnNames="id_country"
+                                 constraintName="fk_supplier_id_country"
+                                 referencedTableName="country"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet id="create_store_supplier" author="ivannikov" runOnChange="true">
+        <preConditions onFail="MARK_RAN"> <!-- если таблица существует - пропустить этот блок -->
+            <and>
+                <not>
+                    <tableExists tableName="store_supplier" />
+                </not>
+            </and>
+        </preConditions>
+
+        <createTable tableName="store_supplier">
+            <column name="id_store" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="id_supplier" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="store_supplier"
+                                 baseColumnNames="id_store"
+                                 constraintName="fk_storesupplier_id_store"
+                                 referencedTableName="store"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="store_supplier"
+                                 baseColumnNames="id_supplier"
+                                 constraintName="fk_storesupplier"
+                                 referencedTableName="supplier"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+</databaseChangeLog>
