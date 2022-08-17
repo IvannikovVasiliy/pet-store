@@ -171,5 +171,26 @@
                                  referencedTableName="supplier"
                                  referencedColumnNames="id" />
     </changeSet>
+    
+    <changeSet id="rollback" author="ivannikov">
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="city" constraintName="fk_city_id_country" />
+            <dropForeignKeyConstraint baseTableName="store" constraintName="fk_store_id_city" />
+            <dropForeignKeyConstraint baseTableName="thing" constraintName="fk_thing_id_store" />
+            <dropForeignKeyConstraint baseTableName="thing" constraintName="fk_thing_id_category" />
+            <dropForeignKeyConstraint baseTableName="thing" constraintName="fk_thing_id_manufacturer" />
+            <dropForeignKeyConstraint baseTableName="supplier" constraintName="fk_supplier_id_country" />
+            <dropForeignKeyConstraint baseTableName="storesupplier" constraintName="fk_storesupplier_id_store" />
+            <dropForeignKeyConstraint baseTableName="storesupplier" constraintName="fk_storesupplier_id_supplier" />
+
+            <dropTable tableName="country" />
+            <dropTable tableName="city" />
+            <dropTable tableName="store" />
+            <dropTable tableName="category" />
+            <dropTable tableName="thing" />
+            <dropTable tableName="supplier" />
+            <dropTable tableName="store_supplier" />
+        </rollback>
+    </changeSet>
 
 </databaseChangeLog>

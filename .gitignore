@@ -6,6 +6,7 @@
 *.jar
 *.war
 *.ear
+*.sql
 *.nar
 hs_err_pid*
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+      http://www.liquibase.org/xml/ns/pro
+      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+
+    <changeSet id="fill-values-country" author="ivannikov">
+        <preConditions onFail="MARK_RAN">
+            <tableIsEmpty tableName="country" />
+        </preConditions>
+
+        <insert tableName="country">
+            <column name="name">США</column>
+        </insert>
+        <insert tableName="country">
+            <column name="name">Россия</column>
+        </insert>
+        <insert tableName="country">
+            <column name="name">Китай</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="fill-values-city-category" author="ivannikov">
+        <insert tableName="city">
+            <column name="name">Los-Angeles</column>
+            <column name="id_country">1</column>
+        </insert>
+        <insert tableName="city">
+            <column name="name">New York</column>
+            <column name="id_country">1</column>
+        </insert>
+        <insert tableName="city">
+            <column name="name">Texas</column>
+            <column name="id_country">1</column>
+        </insert>
+
+        <insert tableName="city">
+            <column name="name">Воронеж</column>
+            <column name="id_country">2</column>
+        </insert>
+        <insert tableName="city">
+            <column name="name">Москва</column>
+            <column name="id_country">2</column>
+        </insert>
+
+        <insert tableName="city">
+            <column name="name">Пекин</column>
+            <column name="id_country">3</column>
+        </insert>
+
+        <insert tableName="category">
+            <column name="name">Молочные продукты</column>
+        </insert>
+        <insert tableName="category">
+            <column name="name">Авто запчасти</column>
+        </insert>
+        <insert tableName="category">
+            <column name="name">Игрушки</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="rollback-country-city" author="ivannikov">
+        <rollback>
+            <delete tableName="country" />
+            <delete tableName="city" />
+            <delete tableName="category" />
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
