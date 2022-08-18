@@ -1,4 +1,4 @@
-package com.pet.model;
+package com.pet.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

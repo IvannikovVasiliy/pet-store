@@ -2,12 +2,9 @@ package com.pet.controller;
 
 import com.pet.dto.PageDto;
 import com.pet.dto.StoreDto;
-import com.pet.entity.StoreEntity;
-import com.pet.model.StoreSearchCriteria;
+import com.pet.pojo.StoreSearchCriteria;
 import com.pet.service.StoreService;
 import lombok.RequiredArgsConstructor;
-import org.h2.mvstore.db.Store;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +21,7 @@ public class StoreController {
 
     @GetMapping
     public List<StoreDto> stores(PageDto pageDto, StoreSearchCriteria criteria) {
-        return storeService.stores(pageDto);
+        return storeService.stores(pageDto, criteria);
     }
 
     @PostMapping()

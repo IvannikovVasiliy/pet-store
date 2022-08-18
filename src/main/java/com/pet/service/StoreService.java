@@ -1,23 +1,25 @@
 package com.pet.service;
 
+import com.pet.dto.CityDto;
+import com.pet.dto.CountryDto;
 import com.pet.dto.PageDto;
 import com.pet.dto.StoreDto;
 import com.pet.entity.City;
 import com.pet.entity.StoreEntity;
 import com.pet.error.ResourceAlreadyExistsException;
 import com.pet.error.ResourceNotFoundException;
+import com.pet.pojo.StoreSearchCriteria;
 import com.pet.repository.CityRepository;
 import com.pet.repository.StoreRepository;
+import com.pet.specification.StoreSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,11 +46,31 @@ public class StoreService {
         return storeDto;
     }
 
-    public List<StoreDto> stores(PageDto pageDto) {
+    public List<StoreDto> stores(PageDto pageDto, StoreSearchCriteria criteria) {
         return storeRepository
-                .findAll(pageDto.getPageable())
+                .findAll(new StoreSpecification(criteria), pageDto.getPageable())
                 .stream()
-                .map(store -> StoreDto.builder().name(store.getName()).cityName(store.getCity().getName()).build())
+                .map(store -> {
+                    City city = store.getCity();
+
+                    CountryDto countryDto = CountryDto
+                            .builder()
+                            .name(city.getCountry().getName())
+                            .build();
+
+                    CityDto cityDto = CityDto
+                            .builder()
+                            .name(city.getName())
+                            .country(countryDto)
+                            .build();
+
+                    return StoreDto
+                            .builder()
+                            .name(store.getName())
+                            .city(cityDto)
+                            .build();
+                        }
+                )
                 .toList();
     }
 

@@ -2,7 +2,7 @@ package com.pet.specification;
 
 import com.pet.entity.StoreEntity;
 import com.pet.entity.StoreEntity_;
-import com.pet.model.StoreSearchCriteria;
+import com.pet.pojo.StoreSearchCriteria;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
