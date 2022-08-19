@@ -6,6 +6,7 @@ import com.pet.pojo.StoreSearchCriteria;
 import com.pet.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ public class StoreController {
     private final StoreService storeService;
 
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<StoreDto> stores(PageDto pageDto, StoreSearchCriteria criteria) {
         return storeService.stores(pageDto, criteria);
     }

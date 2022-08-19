@@ -11,6 +11,7 @@ import com.pet.repository.RoleRepository;
 import com.pet.repository.UserRepository;
 import com.pet.service.UserDetailsImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,13 +28,17 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("auth")
-@AllArgsConstructor
-//@CrossOrigin()
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthController {
+    @Autowired
     AuthenticationManager authenticationManager;
+    @Autowired
     UserRepository userRepository;
+    @Autowired
     RoleRepository roleRepository;
+    @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
     JwtUtils jwtUtils;
 
     @PostMapping("signin")
@@ -54,18 +59,19 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), roles));
     }
 
-    @PostMapping("signup")
+    @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest) {
+
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
-            return ResponseEntity.badRequest().body("Здесь должна быть обработка ошибки в Controller Advice");
+            return ResponseEntity
+                    .badRequest()
+                    .body("Username already exists");
         }
 
-        User user = new User(
-                signupRequest.getUsername(),
-                passwordEncoder.encode(signupRequest.getPassword())
-        );
+        User user = new User(signupRequest.getUsername(), passwordEncoder.encode(signupRequest.getPassword()));
+
         List<String> reqRoles = signupRequest.getRoles();
-        Set<Role> roles =new HashSet<>();
+        Set<Role> roles = new HashSet<>();
 
         if (reqRoles == null) {
             Role userRole = roleRepository

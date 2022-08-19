@@ -3,6 +3,7 @@ package com.pet.entity;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -16,6 +17,9 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private ERole name;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
 
     public Role(ERole name) {
         this.name = name;

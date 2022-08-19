@@ -1,9 +1,11 @@
 package com.pet.pojo;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class JwtResponse {
     public JwtResponse(String token, String username, List<String> roles) {
         this.token = token;

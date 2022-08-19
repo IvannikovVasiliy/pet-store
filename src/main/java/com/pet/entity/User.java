@@ -2,6 +2,7 @@ package com.pet.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -29,11 +30,11 @@ public class User {
     private String username;
 
     @NotEmpty
-    @Size(max = 50)
     private String password;
 
-    @ElementCollection(targetClass = Role.class)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "users_role")
+    @ManyToMany
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_role"))
     private Set<Role> roles;
 }

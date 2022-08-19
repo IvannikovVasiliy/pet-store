@@ -14,4 +14,10 @@
                         newDataType="uuid" />
     </changeSet>
 
+    <changeSet id="change-type-user-password" author="ivannikov">
+        <modifyDataType tableName="users"
+                        columnName="password"
+                        newDataType="varchar(60)" />
+    </changeSet>
+
 </databaseChangeLog>
