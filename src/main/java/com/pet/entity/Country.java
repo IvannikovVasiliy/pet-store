@@ -13,6 +13,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Country {
+    public Country(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

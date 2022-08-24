@@ -1,12 +1,15 @@
 package com.pet.dto;
 
+import com.pet.entity.City;
+import com.pet.entity.Country;
+import com.pet.entity.StoreEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.UUID;
 
 @Builder
 public class StoreDto {
@@ -18,15 +21,21 @@ public class StoreDto {
     @Size(max = 50)
     public String cityName;
 
-    @NotNull
-    public CityDto city;
+    public static StoreDto toDto(StoreEntity store) {
+        return StoreDto
+                .builder()
+                .name(store.getName())
+                .cityName(store.getCity().getName())
+                .build();
+    }
 
-    @Override
-    public String toString() {
-        return String.format("{" +
-                "\"name\": \"%s\", " +
-                "\"cityName\": \"%s\"" +
-                "}",
-                name, cityName);
+    public StoreEntity toEntity() {
+        return new StoreEntity(
+                UUID.randomUUID(),
+                name,
+                new City(1L,
+                        cityName,
+                        new Country(1L, "Russia"))
+        );
     }
 }

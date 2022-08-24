@@ -2,16 +2,14 @@ package com.pet.service;
 
 import com.pet.dto.CityDto;
 import com.pet.dto.CountryDto;
-import com.pet.dto.PageDto;
 import com.pet.dto.StoreDto;
+import com.pet.pojo.StoreModel;
 import com.pet.entity.City;
 import com.pet.entity.StoreEntity;
 import com.pet.error.ResourceAlreadyExistsException;
 import com.pet.error.ResourceNotFoundException;
-import com.pet.pojo.StoreSearchCriteria;
 import com.pet.repository.CityRepository;
 import com.pet.repository.StoreRepository;
-import com.pet.specification.StoreSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -46,9 +44,19 @@ public class StoreService {
         return storeDto;
     }
 
-    public List<StoreDto> stores(PageDto pageDto, StoreSearchCriteria criteria) {
+    public StoreDto findStoreById(UUID id) {
         return storeRepository
-                .findAll(new StoreSpecification(criteria), pageDto.getPageable())
+                .findById(id)
+                .map(store -> StoreDto
+                        .builder()
+                        .name(store.getName())
+                        .build())
+                .get();
+    }
+
+    public List<StoreModel> stores(/*PageDto pageDto, StoreSearchCriteria criteria*/) {
+        return storeRepository
+                .findAll(/*new StoreSpecification(criteria), pageDto.getPageable()*/)
                 .stream()
                 .map(store -> {
                     City city = store.getCity();
@@ -64,7 +72,7 @@ public class StoreService {
                             .country(countryDto)
                             .build();
 
-                    return StoreDto
+                    return StoreModel
                             .builder()
                             .name(store.getName())
                             .city(cityDto)
@@ -74,17 +82,17 @@ public class StoreService {
                 .toList();
     }
 
-    public StoreDto putStore(UUID id, StoreDto storeDto) {
+    public StoreModel putStore(UUID id, StoreModel storeModel) {
         StoreEntity store = storeRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("store with this id not founded"));
-        store.setName(storeDto.name);
+        store.setName(storeModel.name);
         store.setCity(
-                cityRepository.findByName(storeDto.cityName)
+                cityRepository.findByName(storeModel.cityName)
         );
 
         storeRepository.save(store);
-        return storeDto;
+        return storeModel;
     }
 
     public void deleteStore(UUID id) {

@@ -1,5 +1,6 @@
 package com.pet.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,13 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class City {
+
+    public City(Long id, String name, Country country) {
+        this.id = id;
+        this.name = name;
+        this.country = country;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

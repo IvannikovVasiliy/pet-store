@@ -2,11 +2,11 @@ package com.pet.controller;
 
 import com.pet.dto.PageDto;
 import com.pet.dto.StoreDto;
-import com.pet.pojo.StoreSearchCriteria;
+import com.pet.pojo.StoreModel;
+import com.pet.repository.StoreRepository;
 import com.pet.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,23 +19,28 @@ import java.util.UUID;
 public class StoreController {
 
     private final StoreService storeService;
+    private final StoreRepository storeRepository;
 
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public List<StoreDto> stores(PageDto pageDto, StoreSearchCriteria criteria) {
-        return storeService.stores(pageDto, criteria);
+    public List<StoreModel> stores(PageDto pageDto/*, StoreSearchCriteria criteria*/) {
+        return storeService.stores(/*pageDto/*, criteria*/);
+    }
+
+    @GetMapping("{id}")
+    public StoreDto storeById(@PathVariable UUID id) {
+        return storeService.findStoreById(id);
     }
 
     @PostMapping()
     public ResponseEntity<String> createStore(@Valid @RequestBody StoreDto storeDto) {
         return ResponseEntity.ok(
-                String.format("created store {}", storeService.createStore(storeDto).toString())
+                String.format("The store {} is CREATED", storeService.createStore(storeDto))
         );
     }
 
     @PutMapping("{id}")
-    public StoreDto putStore(@PathVariable UUID id, @Valid @RequestBody StoreDto storeDto) {
-        return storeService.putStore(id, storeDto);
+    public StoreModel putStore(@PathVariable UUID id, @Valid @RequestBody StoreModel storeModel) {
+        return storeService.putStore(id, storeModel);
     }
 
     @DeleteMapping("{id}")
