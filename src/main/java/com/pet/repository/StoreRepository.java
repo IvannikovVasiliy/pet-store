@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface StoreRepository extends JpaRepository<StoreEntity, UUID>, JpaSpecificationExecutor<StoreEntity> {
     boolean existsByName(String name);
+
+    StoreEntity findByName(String nameStore);
 }

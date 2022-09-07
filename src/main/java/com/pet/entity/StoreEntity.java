@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,8 +18,8 @@ import java.util.UUID;
 public class StoreEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotEmpty
     @Size(max = 50)
@@ -27,4 +28,8 @@ public class StoreEntity {
     @ManyToOne()
     @JoinColumn(name = "id_city")
     private City city;
+
+
+//    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+//    private List<Thing> things;
 }

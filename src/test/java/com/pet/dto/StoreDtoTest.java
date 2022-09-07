@@ -16,20 +16,20 @@ import static org.junit.jupiter.api.Assertions.*;
 @JsonTest
 class StoreDtoTest {
 
-    @Autowired
-    private JacksonTester<StoreDto> json;
+//    @Autowired
+//    private JacksonTester<StoreDto> json;
 
-    @Test
-    void toDtoTest() {
-        StoreDto storeDto = StoreDto.toDto(new StoreEntity(
-                UUID.randomUUID(),
-                "Apple",
-                new City(1L, "Moscow", new Country(1L, "Russia"))
-                )
-        );
-        assertEquals("Apple", storeDto.name);
-        assertEquals("Moscow", storeDto.cityName);
-    }
+//    @Test
+//    void toDtoTest() {
+//        StoreDto storeDto = StoreDto.toDto(new StoreEntity(
+//                UUID.randomUUID(),
+//                "Apple",
+//                new City(1L, "Moscow", new Country(1L, "Russia"))
+//                )
+//        );
+//        assertEquals("Apple", storeDto.name);
+//        assertEquals("Moscow", storeDto.cityName);
+//    }
 
     @Test
     void toEntityTest() {

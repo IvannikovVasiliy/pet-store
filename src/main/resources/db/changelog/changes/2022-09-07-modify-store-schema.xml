@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+      http://www.liquibase.org/xml/ns/pro
+      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+
+    <changeSet id="drop-store" author="ivannikov">
+<!--        <dropForeignKeyConstraint baseTableName="thing" constraintName="FK_THING_ID_STORE" />-->
+        <dropForeignKeyConstraint baseTableName="store_supplier" constraintName="FK_STORESUPPLIER_ID_STORE" />
+
+        <dropTable tableName="store" />
+    </changeSet>
+
+    <changeSet id="add-fk-store" author="ivannikov" runOnChange="true">
+        <modifyDataType tableName="thing" columnName="id_store" newDataType="bigint" />
+        
+        <addForeignKeyConstraint baseTableName="thing"
+                                 baseColumnNames="id_store"
+                                 constraintName="fk_thing_id_store"
+                                 referencedTableName="store"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="store_supplier"
+                                 baseColumnNames="id_store"
+                                 constraintName="fk_storesupplier_id_store"
+                                 referencedTableName="store"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+
+
+
+</databaseChangeLog>

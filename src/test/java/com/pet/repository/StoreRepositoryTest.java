@@ -22,13 +22,13 @@ class StoreRepositoryTest {
     @Autowired
     StoreRepository storeRepository;
 
-    @Test
-    void existsByNameTest() {
-        //assertTrue(!storeRepository.findAll().iterator().hasNext());
-        StoreEntity store = new StoreEntity(UUID.randomUUID(), "Apple", new City());
-        storeRepository.save(store);
-        assertTrue(storeRepository.existsByName(store.getName()));
-    }
+//    @Test
+//    void existsByNameTest() {
+//        //assertTrue(!storeRepository.findAll().iterator().hasNext());
+//        StoreEntity store = new StoreEntity(UUID.randomUUID(), "Apple", new City());
+//        storeRepository.save(store);
+//        assertTrue(storeRepository.existsByName(store.getName()));
+//    }
 
     @Test
     void findAllTest() {

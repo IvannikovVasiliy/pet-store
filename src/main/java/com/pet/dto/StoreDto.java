@@ -30,12 +30,11 @@ public class StoreDto {
     }
 
     public StoreEntity toEntity() {
-        return new StoreEntity(
-                UUID.randomUUID(),
-                name,
-                new City(1L,
-                        cityName,
-                        new Country(1L, "Russia"))
+        StoreEntity store = new StoreEntity();
+        store.setName(name);
+        store.setCity(
+                new City(1L, cityName, new Country(1L, "Russia"))
         );
+        return store;
     }
 }

@@ -19,5 +19,11 @@
                         columnName="password"
                         newDataType="varchar(60)" />
     </changeSet>
+    
+    <changeSet id="change-type-id_store_fk" author="ivannikov">
+        <modifyDataType tableName="thing"
+                        columnName="id_store"
+                        newDataType="uuid"/>
+    </changeSet>
 
 </databaseChangeLog>
