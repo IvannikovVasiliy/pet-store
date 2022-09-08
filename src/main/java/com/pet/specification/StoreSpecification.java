@@ -33,7 +33,6 @@ public class StoreSpecification implements Specification<StoreEntity> {
                             root.get(StoreEntity_.CITY), criteria.cityId
                     ));
         }
-
         return predicate;
     }
 }
