@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @RequestMapping("/cb")
 public class HomeController {
-    private final Valute valute;
+    private final Valute valute = new Valute();
     private final CurrencyRateService currencyRateService;
 
     @GetMapping("/{valute}")

@@ -4,9 +4,12 @@ import com.pet.dto.ThingDto;
 import com.pet.entity.Thing;
 import com.pet.mapper.ThingMapper;
 import com.pet.repository.ThingRepository;
+import io.netty.handler.codec.http.websocketx.WebSocketCloseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +19,7 @@ public class ThingService {
     private final ThingRepository thingRepository;
     //?????????????????????? static
     private final ThingMapper thingMapper;
+    private final ValuteService valuteService;
 
     public List<ThingDto> getThings() {
         return thingRepository.findAll()
@@ -43,9 +47,12 @@ public class ThingService {
                 .build();
     }
 
-    public ThingDto thingById(Long id) {
-        return thingMapper.toDto(
-                thingRepository.findById(id).get()
-        );
+    public ThingDto thingById(Long id, String valute) {
+        Thing thing = thingRepository.findById(id).get();
+
+        valuteService.getValute(valute, LocalDate.now());
+
+
+        return thingMapper.toDto(thing);
     }
 }
