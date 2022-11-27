@@ -21,7 +21,7 @@ public class CurrencyRateService {
         final String URL = String.format("%s?date_req=%s", cbrConfig.getUrl(), FORMATTER.format(date));
 
         ListValuteDto valutes = restTemplate.getForObject(URL, ListValuteDto.class);
-        Valute result = valutes.valutes.stream().filter(val -> val.getCharCode().equals(valute)).findFirst().get();
+        Valute result = valutes.valutes.stream().filter(val -> val.charCode.equals(valute)).findFirst().get();
 
         return result;
     }

@@ -29,5 +29,5 @@ public class Thing {
     @JoinColumn(name = "id_country_manufacturer")
     private Country country;
 
-    private Integer price;
+    private Double price;
 }

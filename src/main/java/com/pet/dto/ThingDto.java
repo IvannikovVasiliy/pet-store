@@ -8,5 +8,5 @@ public class ThingDto {
     public String nameStore;
     public String nameCategory;
     public String nameCountry;
-    public Integer price;
+    public Double price;
 }
