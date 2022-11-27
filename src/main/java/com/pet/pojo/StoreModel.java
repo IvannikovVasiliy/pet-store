@@ -21,6 +21,5 @@ public class StoreModel {
     @Size(max = 50)
     public String cityName;
 
-    @NotNull
     public CityDto city;
 }

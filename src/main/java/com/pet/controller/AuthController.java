@@ -75,7 +75,7 @@ public class AuthController {
 
         if (reqRoles == null) {
             Role userRole = roleRepository
-                    .findByName(ERole.USER)
+                    .findByName(ERole.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
             roles.add(userRole);
         } else {
@@ -83,14 +83,14 @@ public class AuthController {
                 switch (r) {
                     case "admin":
                         Role adminRole = roleRepository
-                                .findByName(ERole.ADMIN)
+                                .findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error, Role ADMIN is not found"));
                         roles.add(adminRole);
 
                         break;
                     case "mod":
                         Role modRole = roleRepository
-                                .findByName(ERole.MODERATOR)
+                                .findByName(ERole.ROLE_MODERATOR)
                                 .orElseThrow(() -> new RuntimeException("Error, Role MODERATOR is not found"));
                         roles.add(modRole);
 
@@ -98,7 +98,7 @@ public class AuthController {
 
                     default:
                         Role userRole = roleRepository
-                                .findByName(ERole.USER)
+                                .findByName(ERole.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
                         roles.add(userRole);
                 }

@@ -30,6 +30,6 @@ public class StoreEntity {
     private City city;
 
 
-//    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-//    private List<Thing> things;
+    @OneToMany(mappedBy = "store")
+    private List<Thing> things;
 }

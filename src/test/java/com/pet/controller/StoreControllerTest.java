@@ -39,7 +39,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class StoreControllerTest {
     @Autowired
-    private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
 
     @Autowired
@@ -52,17 +51,12 @@ public class StoreControllerTest {
     private StoreService storeService;
 
     @MockBean // заглушка
-    //@Autowired - реальный бин
+    //@Autowired// - реальный бин
     // Отличия - реально в базу не лезем
     private StoreRepository storeRepository;
 
     @Autowired
     private CityRepository cityRepository;
-
-    @BeforeEach
-    public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-    }
 
     @Test
     public void testNullableController() {

@@ -34,10 +34,10 @@ class StoreServiceTest {
     void findStoreById() {
         when(storeRepository.findById(any()))
                 .thenReturn(Optional.of(
-                        new StoreEntity(any(), "Apple", new City())
+                        new StoreEntity(1L, "Apple", new City(), null)
                 ));
 
-        StoreDto storeDto = storeService.findStoreById(UUID.randomUUID());
+        StoreDto storeDto = storeService.findStoreById(1L);
         assertEquals(storeDto.name, "Apple");
     }
 }

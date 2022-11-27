@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("store")
+@RequestMapping("stores")
 @RequiredArgsConstructor
 public class StoreController {
 
@@ -27,24 +27,24 @@ public class StoreController {
     }
 
     @GetMapping("{id}")
-    public StoreDto storeById(@PathVariable UUID id) {
+    public StoreDto storeById(@PathVariable Long id) {
         return storeService.findStoreById(id);
     }
 
-    @PostMapping()
+    @PostMapping("/add")
     public ResponseEntity<String> createStore(@Valid @RequestBody StoreDto storeDto) {
         return ResponseEntity.ok(
-                String.format("The store {} is CREATED", storeService.createStore(storeDto))
+                String.format("The store %s is CREATED", storeService.createStore(storeDto))
         );
     }
 
     @PutMapping("{id}")
-    public StoreModel putStore(@PathVariable UUID id, @Valid @RequestBody StoreModel storeModel) {
+    public StoreModel putStore(@PathVariable Long id, @Valid @RequestBody StoreModel storeModel) {
         return storeService.putStore(id, storeModel);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteById(@PathVariable UUID id) {
+    public ResponseEntity deleteById(@PathVariable Long id) {
         storeService.deleteStore(id);
         return ResponseEntity.ok("deleted store");
     }

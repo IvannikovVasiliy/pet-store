@@ -37,4 +37,12 @@ public class StoreDto {
         );
         return store;
     }
+
+    @Override
+    public String toString() {
+        return "StoreDto { " +
+                "\"name\": " + "\"" + name + "\", " +
+                "\"cityName\": " + "\"" + cityName + "\"" +
+                "}";
+    }
 }

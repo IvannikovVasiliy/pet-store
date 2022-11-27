@@ -44,9 +44,8 @@ public class StoreService {
         return storeDto;
     }
 
-    public StoreDto findStoreById(UUID id) {
-        return storeRepository
-                .findById(id)
+    public StoreDto findStoreById(Long id) {
+        return storeRepository.findById(id)
                 .map(store -> StoreDto
                         .builder()
                         .name(store.getName())
@@ -82,7 +81,7 @@ public class StoreService {
                 .toList();
     }
 
-    public StoreModel putStore(UUID id, StoreModel storeModel) {
+    public StoreModel putStore(Long id, StoreModel storeModel) {
         StoreEntity store = storeRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("store with this id not founded"));
@@ -95,12 +94,12 @@ public class StoreService {
         return storeModel;
     }
 
-    public void deleteStore(UUID id) {
+    public void deleteStore(Long id) {
         try {
             StoreEntity store = storeRepository
                     .findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("The store with this id not found"));
-            storeRepository.deleteById(UUID.fromString("71be7226-d323-4edb-b7ee-d0d824d35f36"));
+            storeRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("The store with this id not found");
         }
