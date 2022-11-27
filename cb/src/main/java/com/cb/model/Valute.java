@@ -1,9 +1,12 @@
 package com.cb.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+import org.springframework.stereotype.Component;
 
+@Component
+@NoArgsConstructor
 @Data
+@AllArgsConstructor
 @Builder
 public class Valute {
     private String numCode;

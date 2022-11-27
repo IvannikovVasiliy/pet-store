@@ -20,8 +20,8 @@ public class ThingController {
     }
 
     @GetMapping("{id}")
-    public ThingDto thingById(@PathVariable("id") Long id) {
-        return thingService.thingById(id);
+    public ThingDto thingById(@PathVariable("id") Long id, @RequestParam("valute") String valute) {
+        return thingService.thingById(id, valute);
     }
 
     @PostMapping
