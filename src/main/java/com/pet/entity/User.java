@@ -2,13 +2,10 @@ package com.pet.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,9 +29,12 @@ public class User {
     @NotEmpty
     private String password;
 
-    @ManyToMany
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "id_user"),
-            inverseJoinColumns = @JoinColumn(name = "id_role"))
-    private Set<Role> roles;
+//    @ManyToMany
+//    @JoinTable(name = "users_roles",
+//            joinColumns = @JoinColumn(name = "id_user"),
+//            inverseJoinColumns = @JoinColumn(name = "id_role"))
+//    private Set<Role> roles;
+    private String role = "USER";
+
+    private boolean enabled = false;
 }

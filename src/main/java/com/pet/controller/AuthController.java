@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 @RequestMapping("auth")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthController {
-    @Autowired
+    //@Autowired
     AuthenticationManager authenticationManager;
     @Autowired
     UserRepository userRepository;
@@ -70,41 +71,15 @@ public class AuthController {
 
         User user = new User(signupRequest.getUsername(), passwordEncoder.encode(signupRequest.getPassword()));
 
-        List<String> reqRoles = signupRequest.getRoles();
         Set<Role> roles = new HashSet<>();
+        signupRequest.getRoles().stream()
+                .forEach(role -> {
+                    roles.add(
+                            roleRepository.findByName(ERole.valueOf(role)).get()
+                    );
+                });
 
-        if (reqRoles == null) {
-            Role userRole = roleRepository
-                    .findByName(ERole.USER)
-                    .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
-            roles.add(userRole);
-        } else {
-            reqRoles.forEach(r -> {
-                switch (r) {
-                    case "admin":
-                        Role adminRole = roleRepository
-                                .findByName(ERole.ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error, Role ADMIN is not found"));
-                        roles.add(adminRole);
-
-                        break;
-                    case "mod":
-                        Role modRole = roleRepository
-                                .findByName(ERole.MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error, Role MODERATOR is not found"));
-                        roles.add(modRole);
-
-                        break;
-
-                    default:
-                        Role userRole = roleRepository
-                                .findByName(ERole.USER)
-                                .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
-                        roles.add(userRole);
-                }
-            });
-        }
-        user.setRoles(roles);
+        //user.setRoles(roles);
         userRepository.save(user);
         return ResponseEntity.ok("User CREATED");
     }

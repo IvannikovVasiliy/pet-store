@@ -1,7 +1,6 @@
 package com.pet.controller;
 
 import com.pet.dto.ThingDto;
-import com.pet.entity.Thing;
 import com.pet.service.ThingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/thing")
+@RequestMapping("/things")
 @RequiredArgsConstructor
 public class ThingController {
     private final ThingService thingService;
@@ -24,7 +23,7 @@ public class ThingController {
         return thingService.thingById(id, valute);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ThingDto createThing(@RequestBody ThingDto thingDto) {
         return thingService.createThing(thingDto);
     }

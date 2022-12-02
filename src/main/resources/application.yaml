@@ -1,0 +1,71 @@
+#spring.datasource.driver-class-name=org.postgresql.Driver
+#spring.datasource.url=jdbc:postgresql://localhost:5432/store
+#spring.datasource.username=postgres
+#spring.datasource.password=1
+#
+#spring.jpa.show-sql=true
+#spring.jpa.hibernate.ddl-auto=none
+#
+#spring.liquibase.enabled=false
+#
+#app.jwtSecret=jwtSecretAlgorithmHS256ForStoreOfThingsIvannikov
+#app.jwtExpirationMs=86400000
+#
+#spring.security.oauth2.client.registration.api-client-oidc.provider=spring
+#spring.security.oauth2.client.registration.api-client-oidc.client-id=api-client
+#spring.security.oauth2.client.registration.api-client-oidc.client-secret=secret
+#spring.security.oauth2.client.registration.api-client-oidc.authorization-grant-type=authorization_code
+#spring.security.oauth2.client.registration.api-client-oidc.redirect-uri="http://127.0.0.1:8080/login/oauth2/code/{registrationId}"
+#spring.security.oauth2.client.registration.api-client-oidc.scope=openid
+#spring.security.oauth2.client.registration.api-client-oidc.client-name=api-client-oidc
+#spring.security.oauth2.client.registration.api-client-authorization-code.provider=spring
+#spring.security.oauth2.client.registration.api-client-authorization-code.client-id=api-client
+#spring.security.oauth2.client.registration.api-client-authorization-code.client-secret=secret
+#spring.security.oauth2.client.registration.api-client-authorization-code.authorization-grant-type=authorization_code
+#spring.security.oauth2.client.registration.api-client-authorization-code.redirect-uri="http://127.0.0.1:8080/authorized"
+#spring.security.oauth2.client.registration.api-client-authorization-code.scope=api.read
+#spring.security.oauth2.client.registration.api-client-authorization-code.client-name=api-client-authorization-code
+#spring.security.oauth2.client.provider.spring.issuer-uri=http://localhost:9000
+
+server:
+  port: 8080
+
+spring:
+  liquibase:
+    enabled: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/store
+    username: postgres
+    password: 1
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      client:
+        registration:
+          api-client-oidc:
+            provider: spring
+            client-id: api-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8080/login/oauth2/code/{registrationId}"
+            scope: openid
+            client-name: api-client-oidc
+          api-client-authorization-code:
+            provider: spring
+            client-id: api-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8080/authorized"
+            scope: api.read
+            client-name: api-client-authorization-code
+        provider:
+          spring:
+            issuer-uri: http://localhost:9000
+
+app:
+  jwtSecret: jwtSecretAlgorithmHS256ForStoreOfThingsIvannikov
+  jwtExpirationMs: 86400000

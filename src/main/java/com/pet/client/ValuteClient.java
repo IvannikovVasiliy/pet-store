@@ -20,7 +20,7 @@ public class ValuteClient {
     private ObjectMapper objectMapper;
 
     public Mono<String> getValute(String valute, LocalDate date) {
-        // Адрес броать из application.properties
+        // Адрес броать из application.yaml
         //String url = "http://localhost:8081/cb/USD?date=02-03-2015";
         String url = "http://localhost:8081/cb/USD?date=" + DATE_FORMATTER.format(date);
 

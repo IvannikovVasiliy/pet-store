@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("store")
+@RequestMapping("stores")
 @RequiredArgsConstructor
 public class StoreController {
 

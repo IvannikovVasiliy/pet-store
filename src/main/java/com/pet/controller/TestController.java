@@ -1,24 +1,38 @@
 package com.pet.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.security.Principal;
 
 @RestController
-@RequestMapping("test")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@RequiredArgsConstructor
 public class TestController {
-    @GetMapping("all")
-    public String all() {
-        return "public API";
+
+    private final WebClient webClient;
+
+    @GetMapping("/api/hello")
+    public String hello(Principal principal) {
+        return "Hello, welcome " + principal.getName();
     }
 
-    @GetMapping("user")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public String userAccess() {
-        System.out.println("fuighdfhdvfjidvfidvfji");
-        return "user API";
+    @GetMapping("/api/users")
+    public String[] users(@RegisteredOAuth2AuthorizedClient("api-client-authorization-code") OAuth2AuthorizedClient client) {
+        return this.webClient
+                .get()
+                .uri("http://127.0.0.1:8090/api/users")
+                .attributes(ServerOAuth2AuthorizedClientExchangeFilterFunction.oauth2AuthorizedClient(client))
+                .retrieve()
+                .bodyToMono(String[].class)
+                .block();
     }
 }
+

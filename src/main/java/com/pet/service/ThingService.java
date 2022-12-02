@@ -4,14 +4,11 @@ import com.pet.dto.ThingDto;
 import com.pet.entity.Thing;
 import com.pet.mapper.ThingMapper;
 import com.pet.repository.ThingRepository;
-import io.netty.handler.codec.http.websocketx.WebSocketCloseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
